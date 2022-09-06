@@ -1,0 +1,124 @@
+@import '../../utils/_flex.scss';
+@import '../../utils/main.scss';
+@import '../../utils/_colors.scss';
+
+$btn-small-padding-vertical: 4px;
+$btn-small-font-size: 4px;
+
+/**
+    color function returns specific color
+*/
+@function colors($value: 'white') {
+  @return map-get($colors, $value);
+}
+
+@function button-padding-modifier($button-size) {
+  $padding-vertical: $btn-small-padding-vertical;
+  $padding-horizontal: $btn-small-padding-vertical * 4;
+  @if $button-size == large {
+    $padding-vertical: $btn-small-padding-vertical * 3;
+  } @else if $button-size == medium {
+    $padding-vertical: $btn-small-padding-vertical * 2;
+  } @else if $button-size == small {
+    $padding-vertical: $btn-small-padding-vertical;
+  } @else {
+    @error "Unknown size #{$button-size}.";
+  }
+  @return $padding-vertical $padding-horizontal;
+}
+
+@function button-font-size-modifier($button-size) {
+  $font-size: $btn-small-font-size;
+  @if $button-size == large {
+    $font-size: $btn-small-font-size * 6;
+  } @else if $button-size == medium {
+    $font-size: $btn-small-font-size * 5;
+  } @else if $button-size == small {
+    $font-size: $btn-small-font-size * 4;
+  } @else {
+    @error "Unknown size #{$button-size}.";
+  }
+  @return $font-size;
+}
+@mixin button-size-controls($size) {
+  padding: button-padding-modifier($size);
+  font-size: (button-font-size-modifier($size));
+}
+
+.base-btn {
+  border: none;
+  border-radius: 4px;
+  &[class^='secondary'] {
+    background-color: colors('secondary');
+    color: colors('light');
+  }
+  &[class^='primary'] {
+    outline: none;
+    border: none;
+    background-color: colors('primary');
+    color: colors('light');
+  }
+  &[class^='warning'] {
+    background-color: colors('warning');
+    color: colors('light');
+  }
+  &[class^='info'] {
+    background-color: colors('info');
+    color: colors('light');
+  }
+  &[class^='danger'] {
+    background-color: colors('danger');
+    color: colors('light');
+  }
+  &[class^='success'] {
+    background-color: colors('success');
+    color: colors('light');
+  }
+  &[class^='warning'] {
+    background-color: colors('warning');
+    color: colors('light');
+  }
+  &[class^='dark'] {
+    background-color: colors('dark');
+    color: colors('light');
+  }
+  &[class~='small'] {
+    min-width: 75px;
+    @include button-size-controls('small');
+  }
+  &[class~='medium'] {
+    min-width: 105px;
+    @include button-size-controls('medium');
+  }
+  &[class~='large'] {
+    min-width: 140px;
+    @include button-size-controls('large');
+  }
+  &[class~='disabled'] {
+    background-color: $gray-300;
+    color: colors('light');
+  }
+  /** when button is not disabled cursor is pointer */
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+  /** when button is not disabled hover class and focus classes are applied */
+  &:not(:disabled):hover {
+    opacity: 0.5;
+  }
+  &:not(:disabled):focus {
+    opacity: 0.2;
+  }
+}
+
+/**
+    dynamic outline classes generator
+    e.g .outline-primary, .outline-secondary etc.
+*/
+@each $key, $val in $colors {
+  .outline-#{$key} {
+    color: $val;
+    border: 1px solid $val;
+    background-color: colors('light');
+  }
+}

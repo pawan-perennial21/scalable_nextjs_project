@@ -12,8 +12,8 @@ const Template: ComponentStory<typeof CatCard> = (args) => {
   return <CatCard {...args} />;
 };
 
-export const Base = Template.bind({});
+export const Card = Template.bind({});
 
-Base.args = {
-  ...mockCatCardProps.base,
+Card.args = {
+  ...mockCatCardProps.card,
 } as ICatCard;
